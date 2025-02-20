@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Számkitalálós játék</title>
+</head>
+<body>
+    <h1>Számkitalálós Játék</h1>
+    <p>Gondoltam egy számra 1 és 100 között. Próbáld meg kitalálni!</p>
+
+    <input type="number" id="userGuess" placeholder="Add meg a tipped">
+    <button onclick="sendGuess()">Tipp beküldése</button>
+
+    <p id="result"></p>
+    <p>Az első játékom egy weboldalon keresztül Python+HTML-be</p>
+    <img src="szamkitalalo.png" alt="kep">
+    <script>
+        function sendGuess() {
+            let guess = document.getElementById("userGuess").value;
+
+            fetch("/guess", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ guess: guess })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerText = data.message;
+            })
+            .catch(error => console.error("Hiba történt: ", error));
+        }
+
+        
+    </script>
+</body>
+</html>
